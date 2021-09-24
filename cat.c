@@ -7,13 +7,13 @@
 
 static void do_cat(const char *path);
 static void die(const char *s);
+static void stdin_cat();
 
 int main(int argc, char *argv[])
 {
   int i;
   if (argc < 2) {
-    fprintf(stderr, "%s: file name not given\n", argv[0]);
-    exit(1);
+    stdin_cat();
   }
   for (i = 1; i < argc; i++) {
     do_cat(argv[i]);
@@ -48,4 +48,14 @@ die(const char *s)
 {
   perror(s);
   exit(1);
+}
+
+static void
+stdin_cat()
+{
+  unsigned char buf[BUFFER_SIZE];
+  int n;
+
+  n = read(STDIN_FILENO, buf, sizeof buf);
+  write(STDOUT_FILENO, buf, n);
 }
