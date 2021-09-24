@@ -11,13 +11,11 @@ static void die(const char *s);
 int main(int argc, char *argv[])
 {
   int i;
-  if (argc < 2)
-  {
+  if (argc < 2) {
     fprintf(stderr, "%s: file name not given\n", argv[0]);
     exit(1);
   }
-  for (i = 1; i < argc; i++)
-  {
+  for (i = 1; i < argc; i++) {
     do_cat(argv[i]);
   }
   exit(0);
@@ -32,21 +30,17 @@ do_cat(const char *path)
   unsigned char buf[BUFFER_SIZE];
   int n;
 
+  // openの返り値はfile description
   fd = open(path, O_RDONLY);
-  if (fd < 0)
-    die(path);
-  for (;;)
-  {
+  if (fd < 0) die(path);
+  for (;;) {
+    // readの第一引数はfile description
     n = read(fd, buf, sizeof buf);
-    if (n < 0)
-      die(path);
-    if (n == 0)
-      break;
-    if (write(STDOUT_FILENO, buf, n) < 0)
-      die(path);
+    if (n < 0) die(path);
+    if (n == 0) break;
+    if (write(STDOUT_FILENO, buf, n) < 0) die(path);
   }
-  if (close(fd) < 0)
-    die(path);
+  if (close(fd) < 0) die(path);
 }
 
 static void
