@@ -30,11 +30,11 @@ do_cat(const char *path)
   unsigned char buf[BUFFER_SIZE];
   int n;
 
-  // openの返り値はfile description
+  // openの返り値はfile descripter
   fd = open(path, O_RDONLY);
   if (fd < 0) die(path);
   for (;;) {
-    // readの第一引数はfile description
+    // readの第一引数はfile descripter
     n = read(fd, buf, sizeof buf);
     if (n < 0) die(path);
     if (n == 0) break;
